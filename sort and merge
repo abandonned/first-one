@@ -1,0 +1,108 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+int main()
+{
+    struct node *head1,*head2;
+    head1= NULL;
+    head2= NULL;
+    int n1,n2,i=0;
+    printf("enter the number of elemensts");
+    scanf("%d",&n1);
+    for(i=0;i<n1;i++)
+    {
+        create(&head1,head1);
+    }
+    printf("enter the number of elements of the second list");
+    scanf("%d",&n2);
+    for(i=0;i<n2;i++)
+    {
+        create(&head2,head2);
+    }
+    printf("list created !");
+    printf("your first list is \n");
+    printing(head1);
+    printf("\n Your second list is \n");
+    printing(head2);
+    merge(head1,&head2,head2);
+    printf("sorted list \n");
+    sort(head1);
+
+}
+
+void create(struct node **loc, struct node *head)
+{
+     struct node *ptr,*temp;
+     temp= head;
+     ptr=(struct node*)malloc(sizeof(struct node));
+     printf("enetr the data");
+     scanf("%d",&(ptr->data));
+     ptr->next= NULL;
+     if(*loc == NULL)
+     {
+         *loc= ptr;
+         return;
+
+     }
+     while(temp->next != NULL)
+     {
+         temp= temp->next;
+     }
+     temp->next= ptr;
+}
+
+void printing(struct node *head)
+{
+    struct node *temp;
+    temp= head;
+    while(temp != NULL)
+    {
+        printf("%d \n",temp->data);
+        temp= temp->next;
+    }
+
+}
+
+
+void merge(struct node *head1, struct node **head2, struct node *head)
+{
+    struct node *ptr;
+    ptr= head1;
+    while(ptr->next != NULL)
+    {
+        ptr= ptr->next;
+    }
+    ptr->next=*head2;
+
+}
+
+void sort(struct node *head1)
+{
+    struct node *ptr,*min,*travel;
+    ptr=head1;
+
+
+    while(ptr->next != NULL)
+    {
+        min = ptr;
+        travel = ptr->next;
+        while(travel != NULL)
+        {
+            if(min->data> travel->data)
+            {
+                int s= min ->data;
+                min->data= travel->data;
+                travel->data= s;
+            }
+            travel = travel->next;
+        }
+        ptr= ptr->next;
+    }
+printing(head1);
+}
